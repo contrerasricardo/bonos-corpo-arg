@@ -434,6 +434,96 @@ td {
   to { transform: rotate(360deg); }
 }
 
+/* ═══ YIELD CURVE CHART ═══ */
+.chart-section {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.chart-section.collapsed {
+  max-height: 0;
+}
+
+.chart-section.expanded {
+  max-height: 600px;
+}
+
+.chart-inner {
+  padding: 24px 32px;
+}
+
+.chart-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.chart-subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legend-line {
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+#yield-curve-canvas {
+  width: 100%;
+  height: 380px;
+  display: block;
+}
+
+.chart-toggle-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.chart-toggle-btn:hover {
+  background: var(--hover);
+  border-color: var(--muted);
+}
+
+.chart-toggle-btn.active {
+  background: #ddf4ff;
+  border-color: var(--ny);
+  color: var(--ny);
+}
+
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 1200px) {
   .stats {
@@ -480,6 +570,7 @@ td {
         <div class="live-dot"></div>
         <span id="live-label">Conectando...</span>
       </div>
+      <button class="chart-toggle-btn" id="chart-toggle-btn" onclick="toggleChart()">⌇ Curva de Rendimientos</button>
       <button class="refresh-btn" onclick="fetchNow()">↻ Actualizar</button>
     </div>
   </div>
@@ -516,6 +607,32 @@ td {
       <div class="stat-label">Última Actualización</div>
       <div class="stat-value" id="stat-update" style="font-size:14px;">—</div>
     </div>
+  </div>
+</div>
+
+<div class="chart-section collapsed" id="chart-section">
+  <div class="chart-inner">
+    <div class="chart-title">Curva de Rendimientos · ONs Hard Dollar Argentina</div>
+    <div class="chart-subtitle">Duration (años) vs TIR (%) · Excluye outliers (TIR > 20%) · Línea de tendencia: regresión polinómica grado 3</div>
+    <div class="chart-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#0969da;"></div>
+        <span style="color:#0969da;">Ley NY — puntos</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:#0969da;"></div>
+        <span style="color:#0969da;">Tendencia NY</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#cf222e;"></div>
+        <span style="color:#cf222e;">Ley ARG — puntos</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-line" style="background:#cf222e;"></div>
+        <span style="color:#cf222e;">Tendencia ARG</span>
+      </div>
+    </div>
+    <canvas id="yield-curve-canvas"></canvas>
   </div>
 </div>
 
@@ -782,6 +899,7 @@ function fetchNow() {
 function render() {
   renderStats();
   renderTable();
+  if (chartVisible) drawYieldCurve();
 }
 
 function renderStats() {
@@ -917,6 +1035,308 @@ function sortBy(field) {
   }
   render();
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// YIELD CURVE CHART
+// ═══════════════════════════════════════════════════════════════════════════
+let chartVisible = false;
+
+function toggleChart() {
+  chartVisible = !chartVisible;
+  const section = document.getElementById('chart-section');
+  const btn = document.getElementById('chart-toggle-btn');
+  if (chartVisible) {
+    section.classList.remove('collapsed');
+    section.classList.add('expanded');
+    btn.classList.add('active');
+    btn.textContent = '✕ Cerrar Curva';
+    drawYieldCurve();
+  } else {
+    section.classList.remove('expanded');
+    section.classList.add('collapsed');
+    btn.classList.remove('active');
+    btn.textContent = '⌇ Curva de Rendimientos';
+  }
+}
+
+// Polynomial regression (degree n) via least squares
+function polyRegression(xs, ys, degree) {
+  const n = xs.length;
+  if (n < degree + 1) return null;
+
+  // Build Vandermonde matrix columns
+  const cols = degree + 1;
+  // Normal equations: (X^T X) beta = X^T y
+  // We'll solve with Gaussian elimination
+  const A = [];
+  const b = [];
+  for (let i = 0; i < cols; i++) {
+    A.push(new Array(cols).fill(0));
+    b.push(0);
+  }
+
+  for (let k = 0; k < n; k++) {
+    const xpow = [];
+    let xk = 1;
+    for (let p = 0; p <= degree; p++) {
+      xpow.push(xk);
+      xk *= xs[k];
+    }
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < cols; j++) {
+        A[i][j] += xpow[i] * xpow[j];
+      }
+      b[i] += xpow[i] * ys[k];
+    }
+  }
+
+  // Gaussian elimination with partial pivoting
+  for (let col = 0; col < cols; col++) {
+    // Find pivot
+    let maxRow = col;
+    for (let row = col + 1; row < cols; row++) {
+      if (Math.abs(A[row][col]) > Math.abs(A[maxRow][col])) maxRow = row;
+    }
+    [A[col], A[maxRow]] = [A[maxRow], A[col]];
+    [b[col], b[maxRow]] = [b[maxRow], b[col]];
+
+    if (Math.abs(A[col][col]) < 1e-12) return null;
+
+    for (let row = col + 1; row < cols; row++) {
+      const factor = A[row][col] / A[col][col];
+      for (let j = col; j < cols; j++) A[row][j] -= factor * A[col][j];
+      b[row] -= factor * b[col];
+    }
+  }
+
+  // Back substitution
+  const coeff = new Array(cols).fill(0);
+  for (let i = cols - 1; i >= 0; i--) {
+    coeff[i] = b[i];
+    for (let j = i + 1; j < cols; j++) coeff[i] -= A[i][j] * coeff[j];
+    coeff[i] /= A[i][i];
+  }
+
+  return (x) => {
+    let result = 0;
+    let xpow = 1;
+    for (let p = 0; p <= degree; p++) {
+      result += coeff[p] * xpow;
+      xpow *= x;
+    }
+    return result;
+  };
+}
+
+function drawYieldCurve() {
+  const canvas = document.getElementById('yield-curve-canvas');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const W = rect.width;
+  const H = rect.height;
+  const PAD = { top: 20, right: 30, bottom: 50, left: 52 };
+  const plotW = W - PAD.left - PAD.right;
+  const plotH = H - PAD.top - PAD.bottom;
+
+  // Filter valid data (exclude outliers: TIR > 20)
+  const nyPoints = data.filter(d => d.ley === 'NY'  && d.tir > 0 && d.tir < 20 && d.duration > 0);
+  const argPoints = data.filter(d => d.ley === 'ARG' && d.tir > 0 && d.tir < 20 && d.duration > 0);
+  const allPoints = [...nyPoints, ...argPoints];
+
+  if (!allPoints.length) return;
+
+  // Axis ranges
+  const allX = allPoints.map(d => d.duration);
+  const allY = allPoints.map(d => d.tir);
+  let xMin = Math.max(0, Math.min(...allX) - 0.2);
+  let xMax = Math.max(...allX) + 0.3;
+  let yMin = Math.max(0, Math.min(...allY) - 0.5);
+  let yMax = Math.max(...allY) + 0.8;
+
+  // Round axis limits nicely
+  yMin = Math.floor(yMin);
+  yMax = Math.ceil(yMax);
+
+  const toCanvasX = (x) => PAD.left + ((x - xMin) / (xMax - xMin)) * plotW;
+  const toCanvasY = (y) => PAD.top + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
+
+  // Background
+  ctx.fillStyle = '#fafbfc';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(PAD.left, PAD.top, plotW, plotH);
+
+  // Grid lines
+  ctx.strokeStyle = '#e1e4e8';
+  ctx.lineWidth = 1;
+
+  // Y grid
+  const yTicks = Math.ceil(yMax - yMin);
+  for (let y = yMin; y <= yMax; y += (yTicks <= 10 ? 1 : 2)) {
+    const cy = toCanvasY(y);
+    ctx.beginPath();
+    ctx.setLineDash([3, 3]);
+    ctx.moveTo(PAD.left, cy);
+    ctx.lineTo(PAD.left + plotW, cy);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#586069';
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(y.toFixed(0) + '%', PAD.left - 6, cy + 3.5);
+  }
+
+  // X grid
+  const xStep = xMax <= 4 ? 0.5 : xMax <= 8 ? 1 : 2;
+  for (let x = Math.ceil(xMin * 2) / 2; x <= xMax; x += xStep) {
+    const cx = toCanvasX(x);
+    ctx.beginPath();
+    ctx.setLineDash([3, 3]);
+    ctx.moveTo(cx, PAD.top);
+    ctx.lineTo(cx, PAD.top + plotH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#586069';
+    ctx.font = '10px IBM Plex Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(x.toFixed(1) + 'y', cx, PAD.top + plotH + 16);
+  }
+
+  // Axes
+  ctx.strokeStyle = '#24292e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(PAD.left, PAD.top);
+  ctx.lineTo(PAD.left, PAD.top + plotH);
+  ctx.lineTo(PAD.left + plotW, PAD.top + plotH);
+  ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#586069';
+  ctx.font = '11px IBM Plex Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('Duration (años)', PAD.left + plotW / 2, H - 6);
+
+  ctx.save();
+  ctx.translate(12, PAD.top + plotH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('TIR (%)', 0, 0);
+  ctx.restore();
+
+  // Draw trend line for a dataset
+  function drawTrend(points, color) {
+    if (points.length < 4) return;
+    const xs = points.map(d => d.duration);
+    const ys = points.map(d => d.tir);
+    const fn = polyRegression(xs, ys, 3);
+    if (!fn) return;
+
+    const steps = 200;
+    const xStep = (xMax - xMin) / steps;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    let first = true;
+    for (let i = 0; i <= steps; i++) {
+      const x = xMin + i * xStep;
+      const y = fn(x);
+      if (y < yMin - 1 || y > yMax + 1) { first = true; continue; }
+      const cx = toCanvasX(x);
+      const cy = toCanvasY(y);
+      if (first) { ctx.moveTo(cx, cy); first = false; }
+      else ctx.lineTo(cx, cy);
+    }
+    ctx.stroke();
+  }
+
+  // Draw scatter points
+  function drawPoints(points, color) {
+    points.forEach(d => {
+      const cx = toCanvasX(d.duration);
+      const cy = toCanvasY(d.tir);
+      ctx.beginPath();
+      ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+      ctx.fillStyle = color + '55'; // semi-transparent fill
+      ctx.fill();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+  }
+
+  // Draw trend lines first (below points)
+  drawTrend(nyPoints,  '#0969da');
+  drawTrend(argPoints, '#cf222e');
+
+  // Then scatter points on top
+  drawPoints(nyPoints,  '#0969da');
+  drawPoints(argPoints, '#cf222e');
+
+  // Tooltip on hover
+  canvas._nyPoints  = nyPoints;
+  canvas._argPoints = argPoints;
+  canvas._toCanvasX = toCanvasX;
+  canvas._toCanvasY = toCanvasY;
+}
+
+// Tooltip
+(function setupTooltip() {
+  const tooltip = document.createElement('div');
+  tooltip.style.cssText = `
+    position: fixed; pointer-events: none; display: none;
+    background: #24292e; color: #fff; border-radius: 6px;
+    padding: 6px 10px; font: 11px 'IBM Plex Mono', monospace;
+    z-index: 300; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    line-height: 1.6;
+  `;
+  document.body.appendChild(tooltip);
+
+  document.addEventListener('mousemove', (e) => {
+    const canvas = document.getElementById('yield-curve-canvas');
+    if (!canvas || !canvas._nyPoints) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const allPts = [
+      ...canvas._nyPoints.map(d => ({ ...d, _color: '#4da6ff' })),
+      ...canvas._argPoints.map(d => ({ ...d, _color: '#ff6b6b' }))
+    ];
+
+    let closest = null;
+    let minDist = Infinity;
+    allPts.forEach(d => {
+      const cx = canvas._toCanvasX(d.duration);
+      const cy = canvas._toCanvasY(d.tir);
+      const dist = Math.hypot(mx - cx, my - cy);
+      if (dist < minDist) { minDist = dist; closest = d; }
+    });
+
+    if (closest && minDist < 18) {
+      tooltip.style.display = 'block';
+      tooltip.style.left = (e.clientX + 14) + 'px';
+      tooltip.style.top  = (e.clientY - 10) + 'px';
+      tooltip.innerHTML = `
+        <strong style="color:${closest._color}">${closest.ticker}</strong> · ${closest.empresa}<br>
+        TIR: <strong>${closest.tir.toFixed(2)}%</strong> · Duration: <strong>${closest.duration.toFixed(2)}y</strong><br>
+        Precio: $${closest.precio.toFixed(2)} · Ley: ${closest.ley}
+      `;
+    } else {
+      tooltip.style.display = 'none';
+    }
+  });
+})();
 
 // ═══════════════════════════════════════════════════════════════════════════
 // INIT
