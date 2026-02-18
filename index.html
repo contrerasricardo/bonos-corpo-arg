@@ -612,24 +612,15 @@ td {
 
 <div class="chart-section collapsed" id="chart-section">
   <div class="chart-inner">
-    <div class="chart-title">Curva de Rendimientos · ONs Hard Dollar Argentina</div>
-    <div class="chart-subtitle">Duration (años) vs TIR (%) · Excluye outliers (TIR > 20%) · Línea de tendencia: regresión polinómica grado 3</div>
-    <div class="chart-legend">
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#0969da;"></div>
-        <span style="color:#0969da;">Ley NY — puntos</span>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+      <div>
+        <div class="chart-title">Curva de Rendimientos · ONs Hard Dollar</div>
+        <div class="chart-subtitle">Duration (años) vs TIR (%) · Excluye outliers (TIR > 20%) · Hover sobre un punto para ver detalle</div>
       </div>
-      <div class="legend-item">
-        <div class="legend-line" style="background:#0969da;"></div>
-        <span style="color:#0969da;">Tendencia NY</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#cf222e;"></div>
-        <span style="color:#cf222e;">Ley ARG — puntos</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-line" style="background:#cf222e;"></div>
-        <span style="color:#cf222e;">Tendencia ARG</span>
+      <div style="display:flex; gap:6px;">
+        <button class="filter-btn active-ny" id="curve-tab-ny"  onclick="setCurveTab('ny')">Ley NY</button>
+        <button class="filter-btn active-arg" id="curve-tab-arg" onclick="setCurveTab('arg')">Ley ARG</button>
+        <button class="filter-btn active-all" id="curve-tab-all" onclick="setCurveTab('all')">Ambas</button>
       </div>
     </div>
     <canvas id="yield-curve-canvas"></canvas>
@@ -1040,6 +1031,16 @@ function sortBy(field) {
 // YIELD CURVE CHART
 // ═══════════════════════════════════════════════════════════════════════════
 let chartVisible = false;
+let curveTab = 'ny'; // 'ny' | 'arg' | 'all'
+
+function setCurveTab(tab) {
+  curveTab = tab;
+  ['ny','arg','all'].forEach(t => {
+    const btn = document.getElementById('curve-tab-' + t);
+    btn.className = 'filter-btn' + (t === tab ? ` active-${t}` : '');
+  });
+  drawYieldCurve();
+}
 
 function toggleChart() {
   chartVisible = !chartVisible;
@@ -1059,71 +1060,59 @@ function toggleChart() {
   }
 }
 
-// Polynomial regression (degree n) via least squares
-function polyRegression(xs, ys, degree) {
+// Regresión polinómica por mínimos cuadrados (igual que Excel "polynomial trendline")
+// Grado 2 = parábola suave, nunca oscila, captura la forma creciente de la yield curve
+function polyFit(xs, ys, degree) {
   const n = xs.length;
-  if (n < degree + 1) return null;
+  const d = degree + 1;
+  if (n < d) return null;
 
-  // Build Vandermonde matrix columns
-  const cols = degree + 1;
-  // Normal equations: (X^T X) beta = X^T y
-  // We'll solve with Gaussian elimination
-  const A = [];
-  const b = [];
-  for (let i = 0; i < cols; i++) {
-    A.push(new Array(cols).fill(0));
-    b.push(0);
-  }
+  // Construir sistema de ecuaciones normales X^T X β = X^T y
+  // Normalizar x para estabilidad numérica
+  const xMean = xs.reduce((s, x) => s + x, 0) / n;
+  const xStd  = Math.sqrt(xs.reduce((s, x) => s + (x - xMean) ** 2, 0) / n) || 1;
+  const xn = xs.map(x => (x - xMean) / xStd);
+
+  const A = Array.from({length: d}, () => new Array(d).fill(0));
+  const b = new Array(d).fill(0);
 
   for (let k = 0; k < n; k++) {
-    const xpow = [];
-    let xk = 1;
-    for (let p = 0; p <= degree; p++) {
-      xpow.push(xk);
-      xk *= xs[k];
-    }
-    for (let i = 0; i < cols; i++) {
-      for (let j = 0; j < cols; j++) {
-        A[i][j] += xpow[i] * xpow[j];
-      }
-      b[i] += xpow[i] * ys[k];
+    const pow = [];
+    let p = 1;
+    for (let j = 0; j < d; j++) { pow.push(p); p *= xn[k]; }
+    for (let i = 0; i < d; i++) {
+      for (let j = 0; j < d; j++) A[i][j] += pow[i] * pow[j];
+      b[i] += pow[i] * ys[k];
     }
   }
 
-  // Gaussian elimination with partial pivoting
-  for (let col = 0; col < cols; col++) {
-    // Find pivot
+  // Eliminación gaussiana con pivoteo parcial
+  for (let col = 0; col < d; col++) {
     let maxRow = col;
-    for (let row = col + 1; row < cols; row++) {
+    for (let row = col + 1; row < d; row++)
       if (Math.abs(A[row][col]) > Math.abs(A[maxRow][col])) maxRow = row;
-    }
     [A[col], A[maxRow]] = [A[maxRow], A[col]];
     [b[col], b[maxRow]] = [b[maxRow], b[col]];
-
-    if (Math.abs(A[col][col]) < 1e-12) return null;
-
-    for (let row = col + 1; row < cols; row++) {
-      const factor = A[row][col] / A[col][col];
-      for (let j = col; j < cols; j++) A[row][j] -= factor * A[col][j];
-      b[row] -= factor * b[col];
+    if (Math.abs(A[col][col]) < 1e-14) return null;
+    for (let row = col + 1; row < d; row++) {
+      const f = A[row][col] / A[col][col];
+      for (let j = col; j < d; j++) A[row][j] -= f * A[col][j];
+      b[row] -= f * b[col];
     }
   }
 
-  // Back substitution
-  const coeff = new Array(cols).fill(0);
-  for (let i = cols - 1; i >= 0; i--) {
-    coeff[i] = b[i];
-    for (let j = i + 1; j < cols; j++) coeff[i] -= A[i][j] * coeff[j];
-    coeff[i] /= A[i][i];
+  // Sustitución hacia atrás
+  const coef = new Array(d).fill(0);
+  for (let i = d - 1; i >= 0; i--) {
+    coef[i] = b[i];
+    for (let j = i + 1; j < d; j++) coef[i] -= A[i][j] * coef[j];
+    coef[i] /= A[i][i];
   }
 
-  return (x) => {
-    let result = 0;
-    let xpow = 1;
-    for (let p = 0; p <= degree; p++) {
-      result += coeff[p] * xpow;
-      xpow *= x;
-    }
+  return function(x) {
+    const xnorm = (x - xMean) / xStd;
+    let result = 0, p = 1;
+    for (let j = 0; j < d; j++) { result += coef[j] * p; p *= xnorm; }
     return result;
   };
 }
@@ -1139,79 +1128,84 @@ function drawYieldCurve() {
 
   const W = rect.width;
   const H = rect.height;
-  const PAD = { top: 20, right: 30, bottom: 50, left: 52 };
+  const PAD = { top: 24, right: 40, bottom: 46, left: 52 };
   const plotW = W - PAD.left - PAD.right;
   const plotH = H - PAD.top - PAD.bottom;
 
   // Filter valid data (exclude outliers: TIR > 20)
-  const nyPoints = data.filter(d => d.ley === 'NY'  && d.tir > 0 && d.tir < 20 && d.duration > 0);
+  const nyPoints  = data.filter(d => d.ley === 'NY'  && d.tir > 0 && d.tir < 20 && d.duration > 0);
   const argPoints = data.filter(d => d.ley === 'ARG' && d.tir > 0 && d.tir < 20 && d.duration > 0);
-  const allPoints = [...nyPoints, ...argPoints];
 
-  if (!allPoints.length) return;
+  // Puntos visibles según tab — ejes se ajustan a ellos
+  const visiblePoints = curveTab === 'ny'  ? nyPoints
+                      : curveTab === 'arg' ? argPoints
+                      : [...nyPoints, ...argPoints];
+  if (!visiblePoints.length) return;
 
-  // Axis ranges
-  const allX = allPoints.map(d => d.duration);
-  const allY = allPoints.map(d => d.tir);
-  let xMin = Math.max(0, Math.min(...allX) - 0.2);
-  let xMax = Math.max(...allX) + 0.3;
-  let yMin = Math.max(0, Math.min(...allY) - 0.5);
-  let yMax = Math.max(...allY) + 0.8;
+  // Axis ranges — tight, ajustado al tab activo
+  const allX = visiblePoints.map(d => d.duration);
+  const allY = visiblePoints.map(d => d.tir);
+  const rawXMin = Math.min(...allX);
+  const rawXMax = Math.max(...allX);
+  const rawYMin = Math.min(...allY);
+  const rawYMax = Math.max(...allY);
 
-  // Round axis limits nicely
-  yMin = Math.floor(yMin);
-  yMax = Math.ceil(yMax);
+  // Ejes: ±0.5y en X y ±1% en Y sobre los datos reales
+  let xMin = Math.max(0, rawXMin - 0.5);
+  let xMax = rawXMax + 0.5;
+  let yMin = Math.max(0, rawYMin - 1);
+  let yMax = rawYMax + 1;
+
+  // Ticks cada 0.5y en X y cada 0.5% en Y (fijo, prolijo)
+  const xStep = 0.5;
+  const yStep = 0.5;
+  xMin = Math.floor(xMin / xStep) * xStep;
+  xMax = Math.ceil(xMax  / xStep) * xStep;
+  yMin = Math.floor(yMin / yStep) * yStep;
+  yMax = Math.ceil(yMax  / yStep) * yStep;
 
   const toCanvasX = (x) => PAD.left + ((x - xMin) / (xMax - xMin)) * plotW;
-  const toCanvasY = (y) => PAD.top + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
+  const toCanvasY = (y) => PAD.top  + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
 
-  // Background
-  ctx.fillStyle = '#fafbfc';
-  ctx.fillRect(0, 0, W, H);
+  // ── Background ──────────────────────────────────────────────────────────
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(PAD.left, PAD.top, plotW, plotH);
+  ctx.fillRect(0, 0, W, H);
 
-  // Grid lines
+  // ── Grid ────────────────────────────────────────────────────────────────
   ctx.strokeStyle = '#e1e4e8';
   ctx.lineWidth = 1;
 
-  // Y grid
-  const yTicks = Math.ceil(yMax - yMin);
-  for (let y = yMin; y <= yMax; y += (yTicks <= 10 ? 1 : 2)) {
+  for (let y = yMin; y <= yMax + 1e-9; y += yStep) {
     const cy = toCanvasY(y);
     ctx.beginPath();
-    ctx.setLineDash([3, 3]);
+    ctx.setLineDash([4, 4]);
     ctx.moveTo(PAD.left, cy);
     ctx.lineTo(PAD.left + plotW, cy);
     ctx.stroke();
     ctx.setLineDash([]);
-
     ctx.fillStyle = '#586069';
     ctx.font = '10px IBM Plex Mono, monospace';
     ctx.textAlign = 'right';
-    ctx.fillText(y.toFixed(0) + '%', PAD.left - 6, cy + 3.5);
+    ctx.fillText(y.toFixed(yStep < 1 ? 1 : 0) + '%', PAD.left - 7, cy + 3.5);
   }
 
-  // X grid
-  const xStep = xMax <= 4 ? 0.5 : xMax <= 8 ? 1 : 2;
-  for (let x = Math.ceil(xMin * 2) / 2; x <= xMax; x += xStep) {
+  for (let x = xMin; x <= xMax + 1e-9; x += xStep) {
     const cx = toCanvasX(x);
     ctx.beginPath();
-    ctx.setLineDash([3, 3]);
+    ctx.setLineDash([4, 4]);
     ctx.moveTo(cx, PAD.top);
     ctx.lineTo(cx, PAD.top + plotH);
     ctx.stroke();
     ctx.setLineDash([]);
-
     ctx.fillStyle = '#586069';
     ctx.font = '10px IBM Plex Mono, monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(x.toFixed(1) + 'y', cx, PAD.top + plotH + 16);
+    ctx.fillText(x.toFixed(xStep < 1 ? 1 : 0) + 'y', cx, PAD.top + plotH + 16);
   }
 
-  // Axes
-  ctx.strokeStyle = '#24292e';
-  ctx.lineWidth = 1.5;
+  // ── Axes ────────────────────────────────────────────────────────────────
+  ctx.strokeStyle = '#9ea9b3';
+  ctx.lineWidth = 1;
   ctx.setLineDash([]);
   ctx.beginPath();
   ctx.moveTo(PAD.left, PAD.top);
@@ -1223,68 +1217,79 @@ function drawYieldCurve() {
   ctx.fillStyle = '#586069';
   ctx.font = '11px IBM Plex Mono, monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('Duration (años)', PAD.left + plotW / 2, H - 6);
-
+  ctx.fillText('Duration (años)', PAD.left + plotW / 2, H - 4);
   ctx.save();
-  ctx.translate(12, PAD.top + plotH / 2);
+  ctx.translate(13, PAD.top + plotH / 2);
   ctx.rotate(-Math.PI / 2);
   ctx.fillText('TIR (%)', 0, 0);
   ctx.restore();
 
-  // Draw trend line for a dataset
+  // ── Trend line (dashed, like Excel forecast line) ────────────────────────
   function drawTrend(points, color) {
     if (points.length < 4) return;
     const xs = points.map(d => d.duration);
     const ys = points.map(d => d.tir);
-    const fn = polyRegression(xs, ys, 3);
+    const fn = polyFit(xs, ys, 2);
     if (!fn) return;
 
-    const steps = 200;
-    const xStep = (xMax - xMin) / steps;
+    // Solo trazar entre el rango real de datos, sin extrapolación
+    const dataXMin = Math.min(...xs);
+    const dataXMax = Math.max(...xs);
 
+    const steps = 300;
+    const dx = (dataXMax - dataXMin) / steps;
     ctx.strokeStyle = color;
-    ctx.lineWidth = 2.5;
-    ctx.setLineDash([]);
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.lineJoin = 'round';
     ctx.beginPath();
-    let first = true;
+    let started = false;
     for (let i = 0; i <= steps; i++) {
-      const x = xMin + i * xStep;
+      const x = dataXMin + i * dx;
       const y = fn(x);
-      if (y < yMin - 1 || y > yMax + 1) { first = true; continue; }
+      if (y < yMin - 0.5 || y > yMax + 0.5) { started = false; continue; }
       const cx = toCanvasX(x);
       const cy = toCanvasY(y);
-      if (first) { ctx.moveTo(cx, cy); first = false; }
+      if (!started) { ctx.moveTo(cx, cy); started = true; }
       else ctx.lineTo(cx, cy);
     }
     ctx.stroke();
+    ctx.setLineDash([]);
   }
 
-  // Draw scatter points
+  // ── Scatter points (sin labels — tooltip al hover) ───────────────────────
   function drawPoints(points, color) {
     points.forEach(d => {
       const cx = toCanvasX(d.duration);
       const cy = toCanvasY(d.tir);
+      const r = 5;
       ctx.beginPath();
-      ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-      ctx.fillStyle = color + '55'; // semi-transparent fill
+      ctx.moveTo(cx,     cy - r);
+      ctx.lineTo(cx + r, cy);
+      ctx.lineTo(cx,     cy + r);
+      ctx.lineTo(cx - r, cy);
+      ctx.closePath();
+      ctx.fillStyle = color + 'cc';
       ctx.fill();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1;
       ctx.stroke();
     });
   }
 
-  // Draw trend lines first (below points)
-  drawTrend(nyPoints,  '#0969da');
-  drawTrend(argPoints, '#cf222e');
+  // Draw según tab activo
+  if (curveTab === 'ny' || curveTab === 'all') {
+    drawTrend(nyPoints, '#0969da');
+    drawPoints(nyPoints, '#0969da');
+  }
+  if (curveTab === 'arg' || curveTab === 'all') {
+    drawTrend(argPoints, '#cf222e');
+    drawPoints(argPoints, '#cf222e');
+  }
 
-  // Then scatter points on top
-  drawPoints(nyPoints,  '#0969da');
-  drawPoints(argPoints, '#cf222e');
-
-  // Tooltip on hover
-  canvas._nyPoints  = nyPoints;
-  canvas._argPoints = argPoints;
+  // Store refs for tooltip
+  canvas._nyPoints  = curveTab === 'arg' ? [] : nyPoints;
+  canvas._argPoints = curveTab === 'ny'  ? [] : argPoints;
   canvas._toCanvasX = toCanvasX;
   canvas._toCanvasY = toCanvasY;
 }
