@@ -672,92 +672,92 @@ td {
 // DATA — 34 NY + 49 ARG
 // ═══════════════════════════════════════════════════════════════════════════
 const BASE_NY = [
-  {ticker:"MTCG",  empresa:"Mastellone",       precio:104.60, var:0.48,  tir:2.39,  cupon:10.95, vencimiento:"30/06/2026", duration:0.37, tipo:"Bullet",   paridad:103.03, ley:"NY", dias_prox_cupon:141},
-  {ticker:"PNDC",  empresa:"Pan American E.",  precio:65.48,  var:-2.27, tir:0.00,  cupon:9.13,  vencimiento:"30/04/2027", duration:0.69, tipo:"Sinkable", paridad:105.19, ley:"NY", dias_prox_cupon:72},
-  {ticker:"YCAM",  empresa:"YPF",              precio:104.00, var:0.00,  tir:4.48,  cupon:6.95,  vencimiento:"21/07/2027", duration:1.39, tipo:"Bullet",   paridad:103.44, ley:"NY", dias_prox_cupon:154},
-  {ticker:"IRCF",  empresa:"IRSA",             precio:68.90,  var:0.38,  tir:5.60,  cupon:8.75,  vencimiento:"22/06/2028", duration:1.45, tipo:"Sinkable", paridad:100.13, ley:"NY", dias_prox_cupon:125},
-  {ticker:"CAC5",  empresa:"Capex",            precio:80.49,  var:0.61,  tir:6.93,  cupon:9.25,  vencimiento:"25/08/2028", duration:1.16, tipo:"Sinkable", paridad:102.65, ley:"NY", dias_prox_cupon:81},
-  {ticker:"BYCH",  empresa:"Banco Galicia",    precio:109.50, var:0.60,  tir:5.07,  cupon:7.75,  vencimiento:"10/10/2028", duration:2.40, tipo:"Bullet",   paridad:102.57, ley:"NY", dias_prox_cupon:52},
-  {ticker:"BACG",  empresa:"Banco Macro",      precio:107.70, var:-0.09, tir:5.93,  cupon:8.00,  vencimiento:"23/06/2029", duration:2.99, tipo:"Bullet",   paridad:102.25, ley:"NY", dias_prox_cupon:126},
-  {ticker:"YMCI",  empresa:"YPF",              precio:108.00, var:0.14,  tir:5.15,  cupon:9.00,  vencimiento:"30/06/2029", duration:1.74, tipo:"Sinkable", paridad:106.67, ley:"NY", dias_prox_cupon:133},
-  {ticker:"DNC7",  empresa:"Edenor",           precio:107.70, var:0.19,  tir:8.44,  cupon:9.75,  vencimiento:"24/10/2030", duration:3.08, tipo:"Sinkable", paridad:104.39, ley:"NY", dias_prox_cupon:66},
-  {ticker:"RUCD",  empresa:"MSU Energy",       precio:106.50, var:0.71,  tir:8.64,  cupon:9.75,  vencimiento:"05/12/2030", duration:3.89, tipo:"Sinkable", paridad:104.38, ley:"NY", dias_prox_cupon:108},
-  {ticker:"TLCM",  empresa:"Telecom",          precio:111.45, var:0.41,  tir:6.78,  cupon:9.50,  vencimiento:"18/07/2031", duration:3.72, tipo:"Sinkable", paridad:110.55, ley:"NY", dias_prox_cupon:151},
-  {ticker:"TSC3",  empresa:"TGS",              precio:109.25, var:-0.36, tir:6.68,  cupon:8.50,  vencimiento:"24/07/2031", duration:4.48, tipo:"Bullet",   paridad:108.61, ley:"NY", dias_prox_cupon:157},
-  {ticker:"TTCD",  empresa:"Tecpetrol",        precio:106.45, var:-0.05, tir:6.67,  cupon:7.63,  vencimiento:"30/11/2030", duration:4.02, tipo:"Bullet",   paridad:104.12, ley:"NY", dias_prox_cupon:75},
-  {ticker:"BACH",  empresa:"Banco Macro",      precio:105.60, var:0.52,  tir:6.87,  cupon:8.00,  vencimiento:"28/01/2031", duration:4.22, tipo:"Bullet",   paridad:105.12, ley:"NY", dias_prox_cupon:161},
-  {ticker:"PLC5",  empresa:"Pluspetrol",       precio:107.65, var:0.47,  tir:6.95,  cupon:8.13,  vencimiento:"18/05/2031", duration:4.32, tipo:"Bullet",   paridad:105.49, ley:"NY", dias_prox_cupon:90},
-  {ticker:"ARC1",  empresa:"Aeropuertos 2000", precio:106.80, var:0.47,  tir:5.99,  cupon:8.50,  vencimiento:"01/08/2031", duration:2.99, tipo:"Sinkable", paridad:106.37, ley:"NY", dias_prox_cupon:73},
-  {ticker:"MGCM",  empresa:"Pampa Energía",    precio:110.70, var:0.09,  tir:6.50,  cupon:7.95,  vencimiento:"10/09/2031", duration:4.49, tipo:"Bullet",   paridad:102.86, ley:"NY", dias_prox_cupon:21},
-  {ticker:"YMCX",  empresa:"YPF",              precio:111.85, var:0.09,  tir:6.93,  cupon:8.75,  vencimiento:"11/09/2031", duration:4.00, tipo:"Sinkable", paridad:107.66, ley:"NY", dias_prox_cupon:22},
-  {ticker:"PNXC",  empresa:"Pan American E.",  precio:114.00, var:1.42,  tir:5.99,  cupon:8.50,  vencimiento:"30/04/2032", duration:4.89, tipo:"Sinkable", paridad:111.09, ley:"NY", dias_prox_cupon:72},
-  {ticker:"YFCJ",  empresa:"YPF Luz",          precio:107.95, var:0.42,  tir:6.85,  cupon:7.88,  vencimiento:"16/10/2032", duration:4.57, tipo:"Sinkable", paridad:101.14, ley:"NY", dias_prox_cupon:58},
-  {ticker:"PLC4",  empresa:"Pluspetrol",       precio:108.95, var:0.18,  tir:7.20,  cupon:8.50,  vencimiento:"30/05/2032", duration:4.94, tipo:"Bullet",   paridad:106.93, ley:"NY", dias_prox_cupon:102},
-  {ticker:"TTCA",  empresa:"Tecpetrol",        precio:107.40, var:0.94,  tir:6.31,  cupon:7.63,  vencimiento:"22/01/2033", duration:5.51, tipo:"Sinkable", paridad:106.79, ley:"NY", dias_prox_cupon:155},
-  {ticker:"YMCJ",  empresa:"YPF",              precio:105.50, var:0.72,  tir:6.54,  cupon:7.00,  vencimiento:"30/09/2033", duration:4.92, tipo:"Sinkable", paridad:102.68, ley:"NY", dias_prox_cupon:41},
-  {ticker:"TLCP",  empresa:"Telecom",          precio:112.25, var:0.94,  tir:7.46,  cupon:9.25,  vencimiento:"28/05/2033", duration:5.15, tipo:"Sinkable", paridad:109.93, ley:"NY", dias_prox_cupon:100},
-  {ticker:"VSCV",  empresa:"Vista Energy",     precio:110.50, var:0.64,  tir:6.86,  cupon:8.50,  vencimiento:"10/06/2033", duration:4.97, tipo:"Sinkable", paridad:108.70, ley:"NY", dias_prox_cupon:113},
-  {ticker:"GN49",  empresa:"Genneia",          precio:105.00, var:-0.80, tir:7.25,  cupon:7.75,  vencimiento:"02/12/2033", duration:5.39, tipo:"Sinkable", paridad:103.29, ley:"NY", dias_prox_cupon:105},
-  {ticker:"YM34",  empresa:"YPF",              precio:107.25, var:0.23,  tir:7.18,  cupon:8.25,  vencimiento:"17/01/2034", duration:5.45, tipo:"Sinkable", paridad:106.47, ley:"NY", dias_prox_cupon:150},
-  {ticker:"MGCO",  empresa:"Pampa Energía",    precio:107.00, var:0.66,  tir:7.13,  cupon:7.88,  vencimiento:"16/12/2034", duration:6.48, tipo:"Bullet",   paridad:105.52, ley:"NY", dias_prox_cupon:119},
-  {ticker:"IRCP",  empresa:"IRSA",             precio:109.45, var:1.16,  tir:7.08,  cupon:8.00,  vencimiento:"31/03/2035", duration:6.48, tipo:"Sinkable", paridad:106.12, ley:"NY", dias_prox_cupon:42},
-  {ticker:"TSC4",  empresa:"TGS",              precio:106.80, var:0.61,  tir:7.18,  cupon:7.75,  vencimiento:"20/11/2035", duration:7.01, tipo:"Bullet",   paridad:104.80, ley:"NY", dias_prox_cupon:92},
-  {ticker:"VSCT",  empresa:"Vista Energy",     precio:106.65, var:0.57,  tir:6.94,  cupon:7.63,  vencimiento:"10/12/2035", duration:6.50, tipo:"Bullet",   paridad:105.09, ley:"NY", dias_prox_cupon:113},
-  {ticker:"TLCT",  empresa:"Telecom",          precio:107.85, var:0.37,  tir:7.56,  cupon:8.50,  vencimiento:"20/01/2036", duration:6.67, tipo:"Sinkable", paridad:107.13, ley:"NY", dias_prox_cupon:153},
-  {ticker:"PN43",  empresa:"Pan American E.",  precio:105.15, var:0.33,  tir:7.25,  cupon:7.75,  vencimiento:"15/01/2037", duration:7.52, tipo:"Sinkable", paridad:104.40, ley:"NY", dias_prox_cupon:148},
-  {ticker:"MGCR",  empresa:"Pampa Energía",    precio:106.65, var:0.66,  tir:7.29,  cupon:7.75,  vencimiento:"14/11/2037", duration:7.79, tipo:"Bullet",   paridad:104.49, ley:"NY", dias_prox_cupon:86},
+  {ticker:"MTCGD", empresa:"Mastellone", precio:104.65, var:0.05, tir:2.29, cupon:10.95, vencimiento:"30/06/2026", duration:0.36, tipo:"Bullet", paridad:103.02, ley:"NY", frecuencia:"Trimestral", dias_prox_cupon:39},
+  {ticker:"PNDCD", empresa:"Pan American Energy", precio:66.00, var:0.79, tir:-1.16, cupon:9.13, vencimiento:"30/04/2027", duration:0.68, tipo:"Sinkable", paridad:105.95, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:70},
+  {ticker:"YCAMD", empresa:"YPF", precio:104.00, var:0.00, tir:4.50, cupon:6.95, vencimiento:"21/07/2027", duration:1.38, tipo:"Bullet", paridad:103.40, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:152},
+  {ticker:"IRCFD", empresa:"IRSA", precio:68.70, var:-0.29, tir:5.83, cupon:8.75, vencimiento:"22/06/2028", duration:1.44, tipo:"Sinkable", paridad:99.80, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:123},
+  {ticker:"CAC5D", empresa:"Capex", precio:81.80, var:1.63, tir:5.48, cupon:9.25, vencimiento:"25/08/2028", duration:1.15, tipo:"Sinkable", paridad:104.27, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:61},
+  {ticker:"BYCHD", empresa:"Banco Galicia", precio:108.55, var:-0.87, tir:5.46, cupon:7.75, vencimiento:"10/10/2028", duration:2.38, tipo:"Bullet", paridad:101.64, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:50},
+  {ticker:"BACGD", empresa:"Banco Macro", precio:107.95, var:0.23, tir:5.86, cupon:8.00, vencimiento:"23/06/2029", duration:2.97, tipo:"Bullet", paridad:102.44, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:124},
+  {ticker:"YMCID", empresa:"YPF", precio:107.90, var:-0.09, tir:5.23, cupon:9.00, vencimiento:"30/06/2029", duration:1.72, tipo:"Sinkable", paridad:106.52, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:131},
+  {ticker:"DNC7D", empresa:"Edenor", precio:108.30, var:0.56, tir:8.26, cupon:9.75, vencimiento:"24/10/2030", duration:3.07, tipo:"Sinkable", paridad:104.92, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:64},
+  {ticker:"RUCDD", empresa:"MSU Energy", precio:105.75, var:-0.70, tir:8.87, cupon:9.75, vencimiento:"05/12/2030", duration:3.87, tipo:"Sinkable", paridad:103.59, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:106},
+  {ticker:"TLCMD", empresa:"Telecom", precio:111.90, var:0.40, tir:6.68, cupon:9.50, vencimiento:"18/07/2031", duration:3.70, tipo:"Sinkable", paridad:110.93, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:149},
+  {ticker:"TSC3D", empresa:"TGS", precio:109.45, var:0.18, tir:6.65, cupon:8.50, vencimiento:"24/07/2031", duration:4.47, tipo:"Bullet", paridad:108.76, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:155},
+  {ticker:"TTCDD", empresa:"Tecpetrol", precio:106.80, var:0.33, tir:6.59, cupon:7.63, vencimiento:"30/11/2030", duration:4.01, tipo:"Bullet", paridad:104.42, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:73},
+  {ticker:"BACHD", empresa:"Banco Macro", precio:106.00, var:0.38, tir:6.78, cupon:8.00, vencimiento:"28/01/2031", duration:4.22, tipo:"Bullet", paridad:105.47, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:159},
+  {ticker:"PLC5D", empresa:"Pluspetrol", precio:107.80, var:0.14, tir:6.92, cupon:8.13, vencimiento:"18/05/2031", duration:4.30, tipo:"Bullet", paridad:105.59, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:88},
+  {ticker:"ARC1D", empresa:"Aeropuertos 2000", precio:106.45, var:-0.33, tir:6.12, cupon:8.50, vencimiento:"01/08/2031", duration:2.98, tipo:"Sinkable", paridad:105.97, ley:"NY", frecuencia:"Trimestral", dias_prox_cupon:71},
+  {ticker:"MGCMD", empresa:"Pampa Energía", precio:110.45, var:-0.23, tir:6.56, cupon:7.95, vencimiento:"10/09/2031", duration:4.47, tipo:"Bullet", paridad:102.59, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:19},
+  {ticker:"YMCXD", empresa:"YPF", precio:111.50, var:-0.31, tir:7.03, cupon:8.75, vencimiento:"11/09/2031", duration:3.99, tipo:"Sinkable", paridad:107.28, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:20},
+  {ticker:"PNXCD", empresa:"Pan American Energy", precio:112.75, var:-1.10, tir:6.27, cupon:8.50, vencimiento:"30/04/2032", duration:4.88, tipo:"Sinkable", paridad:109.82, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:70},
+  {ticker:"YFCJD", empresa:"YPF LUZ", precio:107.15, var:-0.74, tir:7.04, cupon:7.88, vencimiento:"16/10/2032", duration:4.55, tipo:"Sinkable", paridad:100.35, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:56},
+  {ticker:"PLC4D", empresa:"Pluspetrol", precio:108.85, var:-0.09, tir:7.23, cupon:8.50, vencimiento:"30/05/2032", duration:4.93, tipo:"Bullet", paridad:106.78, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:100},
+  {ticker:"TTCAD", empresa:"Tecpetrol", precio:107.00, var:-0.37, tir:6.40, cupon:7.63, vencimiento:"22/01/2033", duration:5.50, tipo:"Sinkable", paridad:106.35, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:153},
+  {ticker:"YMCJD", empresa:"YPF", precio:104.85, var:-0.62, tir:6.68, cupon:7.00, vencimiento:"30/09/2033", duration:4.91, tipo:"Sinkable", paridad:102.01, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:39},
+  {ticker:"TLCPD", empresa:"Telecom", precio:112.15, var:-0.09, tir:7.48, cupon:9.25, vencimiento:"28/05/2033", duration:5.13, tipo:"Sinkable", paridad:109.78, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:98},
+  {ticker:"VSCVD", empresa:"VIsta Energy", precio:110.15, var:-0.32, tir:6.93, cupon:8.50, vencimiento:"10/06/2033", duration:4.96, tipo:"Sinkable", paridad:108.31, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:111},
+  {ticker:"GN49D", empresa:"Genneia", precio:105.75, var:0.71, tir:7.11, cupon:7.75, vencimiento:"02/12/2033", duration:5.38, tipo:"Sinkable", paridad:103.98, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:103},
+  {ticker:"YM34D", empresa:"YPF", precio:107.00, var:-0.23, tir:7.23, cupon:8.25, vencimiento:"17/01/2034", duration:5.43, tipo:"Sinkable", paridad:106.17, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:148},
+  {ticker:"MGCOD", empresa:"Pampa Energía", precio:107.05, var:0.05, tir:7.13, cupon:7.88, vencimiento:"16/12/2034", duration:6.47, tipo:"Bullet", paridad:105.53, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:117},
+  {ticker:"IRCPD", empresa:"IRSA", precio:108.70, var:-0.69, tir:7.20, cupon:8.00, vencimiento:"31/03/2035", duration:6.47, tipo:"Sinkable", paridad:105.35, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:40},
+  {ticker:"TSC4D", empresa:"TGS", precio:106.75, var:-0.05, tir:7.19, cupon:7.75, vencimiento:"20/11/2035", duration:7.00, tipo:"Bullet", paridad:104.70, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:90},
+  {ticker:"VSCTD", empresa:"VIsta Energy", precio:106.65, var:0.00, tir:6.95, cupon:7.63, vencimiento:"10/12/2035", duration:6.49, tipo:"Bullet", paridad:105.05, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:111},
+  {ticker:"TLCTD", empresa:"Telecom", precio:108.00, var:0.14, tir:7.54, cupon:8.50, vencimiento:"20/01/2036", duration:6.66, tipo:"Sinkable", paridad:107.23, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:151},
+  {ticker:"PN43D", empresa:"Pan American Energy", precio:104.90, var:-0.24, tir:7.29, cupon:7.75, vencimiento:"15/01/2037", duration:7.50, tipo:"Sinkable", paridad:104.10, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:146},
+  {ticker:"MGCRD", empresa:"Pampa Energía", precio:106.40, var:-0.23, tir:7.33, cupon:7.75, vencimiento:"14/11/2037", duration:7.78, tipo:"Bullet", paridad:104.20, ley:"NY", frecuencia:"Semestral", dias_prox_cupon:84}
 ];
 
 const BASE_ARG = [
-  {ticker:"YMCVD", empresa:"YPF",               precio:102.20, var:0.25,  tir:2.84,   cupon:6.00,  vencimiento:"26/05/2026", duration:0.29, tipo:"Bullet",   paridad:100.84, ley:"ARG", dias_prox_cupon:11},
-  {ticker:"NBS1D", empresa:"Balanz",            precio:100.60, var:0.55,  tir:3.54,   cupon:5.00,  vencimiento:"06/06/2026", duration:0.30, tipo:"Bullet",   paridad:100.43, ley:"ARG", dias_prox_cupon:109},
-  {ticker:"RC2CD", empresa:"Arcor",             precio:103.10, var:-0.29, tir:4.45,   cupon:5.90,  vencimiento:"06/10/2026", duration:0.62, tipo:"Bullet",   paridad:100.90, ley:"ARG", dias_prox_cupon:48},
-  {ticker:"DNC3D", empresa:"Edenor",            precio:104.40, var:-0.52, tir:7.02,   cupon:9.75,  vencimiento:"22/11/2026", duration:0.75, tipo:"Bullet",   paridad:102.00, ley:"ARG", dias_prox_cupon:94},
-  {ticker:"YM41D", empresa:"YPF",               precio:102.00, var:0.00,  tir:4.54,   cupon:6.00,  vencimiento:"08/01/2027", duration:0.88, tipo:"Bullet",   paridad:101.32, ley:"ARG", dias_prox_cupon:50},
-  {ticker:"ZZC1D", empresa:"Camuzzi",           precio:105.00, var:0.00,  tir:6.96,   cupon:7.95,  vencimiento:"21/02/2027", duration:0.96, tipo:"Bullet",   paridad:101.02, ley:"ARG", dias_prox_cupon:4},
-  {ticker:"IRCJD", empresa:"IRSA",              precio:104.85, var:-0.62, tir:5.54,   cupon:7.00,  vencimiento:"28/02/2027", duration:0.99, tipo:"Bullet",   paridad:98.17,  ley:"ARG", dias_prox_cupon:11},
-  {ticker:"LMS8D", empresa:"Aluar",             precio:102.80, var:0.29,  tir:3.85,   cupon:6.25,  vencimiento:"21/03/2027", duration:0.70, tipo:"Sinkable", paridad:98.71,  ley:"ARG", dias_prox_cupon:32},
-  {ticker:"VSCWD", empresa:"Vista Energy",      precio:102.40, var:0.64,  tir:4.43,   cupon:6.00,  vencimiento:"15/04/2027", duration:1.13, tipo:"Bullet",   paridad:101.83, ley:"ARG", dias_prox_cupon:57},
-  {ticker:"PN42D", empresa:"Pan American E.",   precio:103.30, var:0.00,  tir:4.92,   cupon:6.00,  vencimiento:"17/04/2027", duration:1.13, tipo:"Bullet",   paridad:101.24, ley:"ARG", dias_prox_cupon:59},
-  {ticker:"OTS2D", empresa:"Oil Tanking",       precio:102.00, var:0.69,  tir:5.78,   cupon:7.00,  vencimiento:"24/04/2027", duration:1.15, tipo:"Bullet",   paridad:101.51, ley:"ARG", dias_prox_cupon:66},
-  {ticker:"YM37D", empresa:"YPF",               precio:102.45, var:-0.15, tir:5.18,   cupon:7.00,  vencimiento:"07/05/2027", duration:1.19, tipo:"Bullet",   paridad:102.23, ley:"ARG", dias_prox_cupon:79},
-  {ticker:"RCCRD", empresa:"Arcor",             precio:104.40, var:-0.24, tir:4.64,   cupon:6.75,  vencimiento:"09/05/2027", duration:1.21, tipo:"Bullet",   paridad:102.49, ley:"ARG", dias_prox_cupon:81},
-  {ticker:"CIC9D", empresa:"CNH Industrial",    precio:102.00, var:0.00,  tir:8.41,   cupon:8.25,  vencimiento:"21/05/2027", duration:1.21, tipo:"Bullet",   paridad:96.07,  ley:"ARG", dias_prox_cupon:93},
-  {ticker:"HJCID", empresa:"John Deere",        precio:102.35, var:-1.54, tir:7.07,   cupon:7.50,  vencimiento:"27/05/2027", duration:1.22, tipo:"Bullet",   paridad:100.63, ley:"ARG", dias_prox_cupon:99},
-  {ticker:"MCC2D", empresa:"PECOM",             precio:101.90, var:0.00,  tir:7.37,   cupon:7.50,  vencimiento:"02/06/2027", duration:1.25, tipo:"Bullet",   paridad:99.69,  ley:"ARG", dias_prox_cupon:105},
-  {ticker:"PFC2D", empresa:"Profertil",         precio:102.50, var:-0.10, tir:5.97,   cupon:7.25,  vencimiento:"14/07/2027", duration:1.37, tipo:"Bullet",   paridad:101.79, ley:"ARG", dias_prox_cupon:147},
-  {ticker:"YM38D", empresa:"YPF",               precio:103.70, var:0.00,  tir:5.29,   cupon:7.50,  vencimiento:"22/07/2027", duration:1.37, tipo:"Bullet",   paridad:103.12, ley:"ARG", dias_prox_cupon:64},
-  {ticker:"MIC4D", empresa:"Mirgor",            precio:100.80, var:0.00,  tir:8.23,   cupon:8.25,  vencimiento:"29/07/2027", duration:1.38, tipo:"Bullet",   paridad:100.35, ley:"ARG", dias_prox_cupon:71},
-  {ticker:"PN38D", empresa:"Pan American E.",   precio:104.00, var:0.48,  tir:3.81,   cupon:6.50,  vencimiento:"11/08/2027", duration:1.45, tipo:"Bullet",   paridad:103.87, ley:"ARG", dias_prox_cupon:175},
-  {ticker:"SBC1D", empresa:"Scania Credit",     precio:106.00, var:0.19,  tir:6.29,   cupon:8.75,  vencimiento:"05/09/2027", duration:0.77, tipo:"Sinkable", paridad:102.72, ley:"ARG", dias_prox_cupon:16},
-  {ticker:"TTCBD", empresa:"Tecpetrol",         precio:104.30, var:-0.86, tir:5.24,   cupon:6.50,  vencimiento:"16/10/2027", duration:1.59, tipo:"Bullet",   paridad:102.03, ley:"ARG", dias_prox_cupon:58},
-  {ticker:"RUCED", empresa:"MSU Energy",        precio:100.00, var:-0.10, tir:7.85,   cupon:7.50,  vencimiento:"30/10/2027", duration:1.51, tipo:"Sinkable", paridad:99.82,  ley:"ARG", dias_prox_cupon:72},
-  {ticker:"TLCOD", empresa:"Telecom",           precio:103.50, var:0.00,  tir:6.33,   cupon:7.00,  vencimiento:"28/11/2028", duration:2.57, tipo:"Bullet",   paridad:101.90, ley:"ARG", dias_prox_cupon:100},
-  {ticker:"PLC3D", empresa:"Pluspetrol",        precio:102.80, var:0.00,  tir:6.15,   cupon:7.25,  vencimiento:"30/04/2028", duration:2.09, tipo:"Bullet",   paridad:102.41, ley:"ARG", dias_prox_cupon:163},
-  {ticker:"CRCJD", empresa:"Celulosa",          precio:17.60,  var:0.00,  tir:868.90, cupon:9.25,  vencimiento:"16/05/2028", duration:1.80, tipo:"Sinkable", paridad:25.00,  ley:"ARG", dias_prox_cupon:-1},
-  {ticker:"OLC5D", empresa:"Oleoductos V.",     precio:105.00, var:-0.47, tir:6.32,   cupon:7.89,  vencimiento:"12/06/2028", duration:2.16, tipo:"Bullet",   paridad:103.48, ley:"ARG", dias_prox_cupon:115},
-  {ticker:"CICAD", empresa:"CNH Industrial",    precio:102.00, var:-0.49, tir:7.99,   cupon:8.00,  vencimiento:"03/06/2028", duration:2.14, tipo:"Bullet",   paridad:100.31, ley:"ARG", dias_prox_cupon:106},
-  {ticker:"DNC5D", empresa:"Edenor",            precio:105.80, var:0.86,  tir:7.17,   cupon:9.50,  vencimiento:"05/08/2028", duration:2.26, tipo:"Bullet",   paridad:105.44, ley:"ARG", dias_prox_cupon:169},
-  {ticker:"YM40D", empresa:"YPF",               precio:105.95, var:0.71,  tir:5.80,   cupon:7.50,  vencimiento:"28/08/2028", duration:2.32, tipo:"Bullet",   paridad:104.19, ley:"ARG", dias_prox_cupon:11},
-  {ticker:"LMS7D", empresa:"Aluar",             precio:94.70,  var:0.52,  tir:5.24,   cupon:7.00,  vencimiento:"12/10/2028", duration:1.34, tipo:"Sinkable", paridad:94.03,  ley:"ARG", dias_prox_cupon:54},
-  {ticker:"PECGD", empresa:"Petrol. Aconcagua", precio:62.76,  var:0.00,  tir:34.92,  cupon:9.00,  vencimiento:"28/10/2028", duration:2.28, tipo:"Bullet",   paridad:61.06,  ley:"ARG", dias_prox_cupon:70},
-  {ticker:"PN37D", empresa:"Pan American E.",   precio:103.35, var:0.54,  tir:5.77,   cupon:6.25,  vencimiento:"13/11/2028", duration:2.54, tipo:"Bullet",   paridad:101.66, ley:"ARG", dias_prox_cupon:85},
-  {ticker:"SBC2D", empresa:"Scania Credit",     precio:101.10, var:0.10,  tir:7.39,   cupon:7.49,  vencimiento:"16/01/2029", duration:1.58, tipo:"Sinkable", paridad:100.42, ley:"ARG", dias_prox_cupon:149},
-  {ticker:"HJCKD", empresa:"John Deere",        precio:104.00, var:0.97,  tir:6.59,   cupon:7.75,  vencimiento:"16/01/2029", duration:2.68, tipo:"Bullet",   paridad:103.28, ley:"ARG", dias_prox_cupon:149},
-  {ticker:"YM42D", empresa:"YPF",               precio:102.90, var:0.00,  tir:6.59,   cupon:7.00,  vencimiento:"02/03/2029", duration:2.78, tipo:"Bullet",   paridad:101.38, ley:"ARG", dias_prox_cupon:105},
-  {ticker:"VSCPD", empresa:"Vista Energy",      precio:106.85, var:0.19,  tir:6.08,   cupon:8.00,  vencimiento:"03/05/2029", duration:2.26, tipo:"Sinkable", paridad:104.40, ley:"ARG", dias_prox_cupon:75},
-  {ticker:"OLC6D", empresa:"Oleoductos V.",     precio:103.80, var:0.24,  tir:6.83,   cupon:7.50,  vencimiento:"05/06/2029", duration:2.98, tipo:"Bullet",   paridad:102.22, ley:"ARG", dias_prox_cupon:108},
-  {ticker:"NPCCD", empresa:"Central Puerto",    precio:108.90, var:0.83,  tir:6.48,   cupon:8.00,  vencimiento:"25/08/2029", duration:3.07, tipo:"Bullet",   paridad:104.83, ley:"ARG", dias_prox_cupon:8},
-  {ticker:"PN41D", empresa:"Pan American E.",   precio:107.50, var:0.00,  tir:6.34,   cupon:7.50,  vencimiento:"27/08/2029", duration:3.10, tipo:"Bullet",   paridad:103.77, ley:"ARG", dias_prox_cupon:10},
-  {ticker:"PN35D", empresa:"Pan American E.",   precio:106.50, var:1.00,  tir:5.91,   cupon:7.00,  vencimiento:"27/09/2029", duration:3.17, tipo:"Bullet",   paridad:100.20, ley:"ARG", dias_prox_cupon:38},
-  {ticker:"IRCOD", empresa:"IRSA",              precio:103.55, var:0.34,  tir:6.42,   cupon:7.25,  vencimiento:"23/10/2029", duration:3.32, tipo:"Bullet",   paridad:103.02, ley:"ARG", dias_prox_cupon:156},
-  {ticker:"TTC9D", empresa:"Tecpetrol",         precio:104.45, var:0.05,  tir:6.19,   cupon:6.80,  vencimiento:"24/10/2029", duration:3.26, tipo:"Bullet",   paridad:102.22, ley:"ARG", dias_prox_cupon:66},
-  {ticker:"OT42D", empresa:"Oil Tanking",       precio:105.60, var:0.57,  tir:6.73,   cupon:8.00,  vencimiento:"17/01/2030", duration:3.43, tipo:"Bullet",   paridad:104.86, ley:"ARG", dias_prox_cupon:59},
-  {ticker:"PLC2D", empresa:"Pluspetrol",        precio:105.40, var:0.05,  tir:6.71,   cupon:7.50,  vencimiento:"27/01/2030", duration:3.45, tipo:"Bullet",   paridad:102.99, ley:"ARG", dias_prox_cupon:69},
-  {ticker:"YM39D", empresa:"YPF",               precio:108.80, var:0.32,  tir:6.70,   cupon:8.75,  vencimiento:"22/07/2030", duration:3.76, tipo:"Bullet",   paridad:108.09, ley:"ARG", dias_prox_cupon:155},
-  {ticker:"PQCSD", empresa:"Petroquímica CR",   precio:102.70, var:2.17,  tir:8.51,   cupon:8.00,  vencimiento:"17/02/2031", duration:4.08, tipo:"Bullet",   paridad:98.70,  ley:"ARG", dias_prox_cupon:0},
-  {ticker:"VSCRD", empresa:"Vista Energy",      precio:107.35, var:-0.19, tir:6.59,   cupon:7.65,  vencimiento:"10/10/2031", duration:4.58, tipo:"Sinkable", paridad:100.72, ley:"ARG", dias_prox_cupon:52},
-  {ticker:"PN36D", empresa:"Pan American E.",   precio:105.40, var:0.05,  tir:6.62,   cupon:7.25,  vencimiento:"13/11/2031", duration:4.71, tipo:"Bullet",   paridad:99.83,  ley:"ARG", dias_prox_cupon:85},
+  {ticker:"YMCVD", empresa:"YPF", precio:102.60, var:0.39, tir:1.38, cupon:6.00, vencimiento:"26/05/2026", duration:0.27, tipo:"Bullet", paridad:101.20, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:9},
+  {ticker:"NBS1D", empresa:"Balanz", precio:100.25, var:-0.35, tir:4.86, cupon:5.00, vencimiento:"06/06/2026", duration:0.29, tipo:"Bullet", paridad:100.06, ley:"ARG", frecuencia:"Cuatrimestral", dias_prox_cupon:107},
+  {ticker:"RC2CD", empresa:"Arcor", precio:103.20, var:0.10, tir:4.32, cupon:5.90, vencimiento:"06/10/2026", duration:0.62, tipo:"Bullet", paridad:100.96, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:46},
+  {ticker:"DNC3D", empresa:"Edenor", precio:104.10, var:-0.29, tir:7.50, cupon:9.75, vencimiento:"22/11/2026", duration:0.74, tipo:"Bullet", paridad:101.66, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:92},
+  {ticker:"YM41D", empresa:"YPF", precio:102.30, var:0.29, tir:4.21, cupon:6.00, vencimiento:"08/01/2027", duration:0.87, tipo:"Bullet", paridad:101.58, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:48},
+  {ticker:"ZZC1D", empresa:"Camuzzi", precio:105.40, var:0.38, tir:6.58, cupon:7.95, vencimiento:"21/02/2027", duration:0.96, tipo:"Bullet", paridad:101.36, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:2},
+  {ticker:"IRCJD", empresa:"IRSA", precio:105.55, var:0.67, tir:4.85, cupon:7.00, vencimiento:"28/02/2027", duration:0.99, tipo:"Bullet", paridad:98.79, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:9},
+  {ticker:"LMS8D", empresa:"Aluar", precio:104.40, var:1.56, tir:1.58, cupon:6.25, vencimiento:"21/03/2027", duration:0.70, tipo:"Sinkable", paridad:100.21, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:30},
+  {ticker:"VSCWD", empresa:"Vista Energy", precio:102.50, var:0.10, tir:4.36, cupon:6.00, vencimiento:"15/04/2027", duration:1.13, tipo:"Bullet", paridad:101.90, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:55},
+  {ticker:"PN42D", empresa:"Pan American Energy", precio:103.25, var:-0.05, tir:4.99, cupon:6.00, vencimiento:"17/04/2027", duration:1.13, tipo:"Bullet", paridad:101.15, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:57},
+  {ticker:"OTS2D", empresa:"Oil Tanking", precio:101.90, var:-0.10, tir:5.90, cupon:7.00, vencimiento:"24/04/2027", duration:1.15, tipo:"Bullet", paridad:101.38, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:64},
+  {ticker:"YM37D", empresa:"YPF", precio:102.60, var:0.15, tir:5.07, cupon:7.00, vencimiento:"07/05/2027", duration:1.18, tipo:"Bullet", paridad:102.34, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:77},
+  {ticker:"RCCRD", empresa:"Arcor", precio:104.40, var:0.00, tir:4.66, cupon:6.75, vencimiento:"09/05/2027", duration:1.19, tipo:"Bullet", paridad:102.45, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:79},
+  {ticker:"CIC9D", empresa:"CNH Industrial", precio:102.00, var:0.00, tir:8.45, cupon:8.25, vencimiento:"21/05/2027", duration:1.20, tipo:"Bullet", paridad:96.03, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:91},
+  {ticker:"HJCID", empresa:"John Deere", precio:102.35, var:0.00, tir:7.10, cupon:7.50, vencimiento:"27/05/2027", duration:1.22, tipo:"Bullet", paridad:100.59, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:97},
+  {ticker:"MCC2D", empresa:"PECOM", precio:101.00, var:-0.88, tir:8.19, cupon:7.50, vencimiento:"02/06/2027", duration:1.24, tipo:"Bullet", paridad:98.77, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:103},
+  {ticker:"PFC2D", empresa:"Profertil", precio:102.25, var:-0.24, tir:6.19, cupon:7.25, vencimiento:"14/07/2027", duration:1.36, tipo:"Bullet", paridad:101.50, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:145},
+  {ticker:"YM38D", empresa:"YPF", precio:103.65, var:-0.05, tir:5.35, cupon:7.50, vencimiento:"22/07/2027", duration:1.36, tipo:"Bullet", paridad:103.03, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:62},
+  {ticker:"MIC4D", empresa:"Mirgor", precio:101.50, var:0.69, tir:7.72, cupon:8.25, vencimiento:"29/07/2027", duration:1.38, tipo:"Bullet", paridad:101.00, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:69},
+  {ticker:"PN38D", empresa:"Pan American Energy", precio:104.20, var:-1.70, tir:3.69, cupon:6.50, vencimiento:"11/08/2027", duration:1.43, tipo:"Bullet", paridad:104.03, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:173},
+  {ticker:"SBC1D", empresa:"Scania Credit", precio:105.20, var:-0.75, tir:7.41, cupon:8.75, vencimiento:"05/09/2027", duration:0.76, tipo:"Sinkable", paridad:101.90, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:14},
+  {ticker:"TTCBD", empresa:"Tecpetrol", precio:104.00, var:-0.29, tir:5.45, cupon:6.50, vencimiento:"16/10/2027", duration:1.58, tipo:"Bullet", paridad:101.70, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:56},
+  {ticker:"RUCED", empresa:"MSU Energy", precio:100.40, var:0.40, tir:7.59, cupon:7.50, vencimiento:"30/10/2027", duration:1.51, tipo:"Sinkable", paridad:100.17, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:70},
+  {ticker:"TLCOD", empresa:"Telecom", precio:104.15, var:0.63, tir:6.08, cupon:7.00, vencimiento:"28/11/2028", duration:2.56, tipo:"Bullet", paridad:102.50, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:98},
+  {ticker:"PLC3D", empresa:"Pluspetrol", precio:103.30, var:0.54, tir:5.92, cupon:7.25, vencimiento:"30/04/2028", duration:2.08, tipo:"Bullet", paridad:102.87, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:161},
+  {ticker:"CRCJD", empresa:"Celulosa", precio:17.60, var:0.00, tir:284.52, cupon:9.25, vencimiento:"16/05/2028", duration:1.80, tipo:"Sinkable", paridad:25.57, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:86},
+  {ticker:"OLC5D", empresa:"Oleoductos del Valle", precio:105.00, var:0.00, tir:6.34, cupon:7.89, vencimiento:"12/06/2028", duration:2.16, tipo:"Bullet", paridad:103.43, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:113},
+  {ticker:"CICAD", empresa:"CNH Industrial", precio:102.50, var:0.49, tir:7.76, cupon:8.00, vencimiento:"03/06/2028", duration:2.14, tipo:"Bullet", paridad:100.76, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:104},
+  {ticker:"DNC5D", empresa:"Edenor", precio:105.15, var:-0.61, tir:7.48, cupon:9.50, vencimiento:"05/08/2028", duration:2.25, tipo:"Bullet", paridad:104.74, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:167},
+  {ticker:"YM40D", empresa:"YPF", precio:105.80, var:-0.14, tir:5.88, cupon:7.50, vencimiento:"28/08/2028", duration:2.31, tipo:"Bullet", paridad:104.00, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:9},
+  {ticker:"LMS7D", empresa:"Aluar", precio:95.30, var:0.63, tir:4.76, cupon:7.00, vencimiento:"12/10/2028", duration:1.34, tipo:"Sinkable", paridad:94.59, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:52},
+  {ticker:"PECGD", empresa:"Petrolera Aconcagua", precio:62.76, var:0.00, tir:35.02, cupon:9.00, vencimiento:"28/10/2028", duration:2.27, tipo:"Bullet", paridad:61.03, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:68},
+  {ticker:"PN37D", empresa:"Pan American Energy", precio:102.80, var:-0.53, tir:6.01, cupon:6.25, vencimiento:"13/11/2028", duration:2.54, tipo:"Bullet", paridad:101.09, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:83},
+  {ticker:"SBC2D", empresa:"Scania Credit", precio:101.25, var:0.15, tir:7.32, cupon:7.49, vencimiento:"16/01/2029", duration:1.58, tipo:"Sinkable", paridad:100.53, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:147},
+  {ticker:"HJCKD", empresa:"John Deere", precio:103.00, var:-0.96, tir:6.99, cupon:7.75, vencimiento:"16/01/2029", duration:2.67, tipo:"Bullet", paridad:102.24, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:147},
+  {ticker:"YM42D", empresa:"YPF", precio:103.05, var:0.15, tir:6.55, cupon:7.00, vencimiento:"02/03/2029", duration:2.77, tipo:"Bullet", paridad:101.49, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:103},
+  {ticker:"VSCPD", empresa:"Vista Energy", precio:107.80, var:0.89, tir:5.67, cupon:8.00, vencimiento:"03/05/2029", duration:2.25, tipo:"Sinkable", paridad:105.28, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:73},
+  {ticker:"OLC6D", empresa:"Oleoductos del Valle", precio:103.20, var:-0.58, tir:7.06, cupon:7.50, vencimiento:"05/06/2029", duration:2.97, tipo:"Bullet", paridad:101.59, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:106},
+  {ticker:"NPCCD", empresa:"Central Puerto", precio:108.80, var:-0.09, tir:6.53, cupon:8.00, vencimiento:"25/08/2029", duration:3.06, tipo:"Bullet", paridad:104.69, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:6},
+  {ticker:"PN41D", empresa:"Pan American Energy", precio:107.85, var:0.33, tir:6.24, cupon:7.50, vencimiento:"27/08/2029", duration:3.09, tipo:"Bullet", paridad:104.07, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:8},
+  {ticker:"PN35D", empresa:"Pan American Energy", precio:105.70, var:-0.75, tir:6.18, cupon:7.00, vencimiento:"27/09/2029", duration:3.16, tipo:"Bullet", paridad:99.41, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:36},
+  {ticker:"IRCOD", empresa:"IRSA", precio:103.10, var:-0.43, tir:6.57, cupon:7.25, vencimiento:"23/10/2029", duration:3.31, tipo:"Bullet", paridad:102.53, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:154},
+  {ticker:"TTC9D", empresa:"Tecpetrol", precio:104.00, var:-0.43, tir:6.34, cupon:6.80, vencimiento:"24/10/2029", duration:3.25, tipo:"Bullet", paridad:101.74, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:64},
+  {ticker:"OT42D", empresa:"Oil Tanking", precio:106.90, var:1.23, tir:6.36, cupon:8.00, vencimiento:"17/01/2030", duration:3.43, tipo:"Bullet", paridad:106.11, ley:"ARG", frecuencia:"Trimestral", dias_prox_cupon:57},
+  {ticker:"PLC2D", empresa:"Pluspetrol", precio:105.80, var:0.38, tir:6.61, cupon:7.50, vencimiento:"27/01/2030", duration:3.45, tipo:"Bullet", paridad:103.34, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:67},
+  {ticker:"YM39D", empresa:"YPF", precio:109.75, var:0.87, tir:6.47, cupon:8.75, vencimiento:"22/07/2030", duration:3.74, tipo:"Bullet", paridad:108.98, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:153},
+  {ticker:"PQCSD", empresa:"Petroquimica Cdro Riv", precio:100.95, var:-1.70, tir:7.93, cupon:8.00, vencimiento:"17/02/2031", duration:4.25, tipo:"Bullet", paridad:100.88, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:179},
+  {ticker:"VSCRD", empresa:"Vista Energy", precio:107.70, var:0.33, tir:6.51, cupon:7.65, vencimiento:"10/10/2031", duration:4.57, tipo:"Sinkable", paridad:101.01, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:50},
+  {ticker:"PN36D", empresa:"Pan American Energy", precio:105.30, var:-0.09, tir:6.65, cupon:7.25, vencimiento:"13/11/2031", duration:4.70, tipo:"Bullet", paridad:99.70, ley:"ARG", frecuencia:"Semestral", dias_prox_cupon:83}
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -850,7 +850,19 @@ async function fetchAPI() {
       const live = priceMap[bond.ticker];
       if (live) {
         matchCount++;
-        return { ...bond, precio: live.precio, var: live.var, live: true };
+        
+        // Calculate live parity from price (paridad ≈ precio para bonds)
+        const liveParidad = live.precio;
+        
+        console.log(`✓ Matched ${bond.ticker} → $${live.precio.toFixed(2)} (Paridad: ${liveParidad.toFixed(2)}%)`);
+        
+        return { 
+          ...bond, 
+          precio: live.precio, 
+          var: live.var,
+          paridad: liveParidad,  // Update parity with live price
+          live: true 
+        };
       }
       return { ...bond, live: false };
     });
@@ -887,7 +899,48 @@ function fetchNow() {
 // ═══════════════════════════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
+// CALCULATE DAYS TO NEXT PAYMENT (auto-update daily)
+// ═══════════════════════════════════════════════════════════════════════════
+function calcularDiasProximoPago(vencimientoStr, frecuencia = 'semestral') {
+  // Parse vencimiento "DD/MM/YYYY"
+  const [dia, mes, año] = vencimientoStr.split('/').map(Number);
+  const vencimiento = new Date(año, mes - 1, dia);
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  
+  // Si ya venció, return -1
+  if (hoy > vencimiento) return -1;
+  
+  // Calcular próxima fecha de pago (asumiendo pagos semestrales)
+  const mesesEntrePagos = frecuencia === 'semestral' ? 6 : 12;
+  let proximoPago = new Date(vencimiento);
+  
+  // Retroceder desde vencimiento hasta encontrar el próximo pago futuro
+  while (proximoPago > hoy) {
+    proximoPago.setMonth(proximoPago.getMonth() - mesesEntrePagos);
+  }
+  
+  // Avanzar al siguiente pago
+  proximoPago.setMonth(proximoPago.getMonth() + mesesEntrePagos);
+  
+  // Calcular días
+  const diffTime = proximoPago - hoy;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  return diffDays > 0 ? diffDays : -1;
+}
+
+// Update all bonds with calculated days to next payment
+function actualizarDiasPago() {
+  data = data.map(bond => ({
+    ...bond,
+    dias_prox_cupon: calcularDiasProximoPago(bond.vencimiento, bond.frecuencia || 'semestral')
+  }));
+}
+
 function render() {
+  actualizarDiasPago(); // Recalcular días antes de renderizar
   renderStats();
   renderTable();
   if (chartVisible) drawYieldCurve();
@@ -975,7 +1028,8 @@ function renderTable() {
   tbody.innerHTML = filtered.map(d => {
     const varClass = d.var > 0 ? 'var-pos' : d.var < 0 ? 'var-neg' : 'var-neu';
     const varSign = d.var > 0 ? '+' : '';
-    const paridadClass = d.paridad >= 100 ? 'paridad high' : 'paridad low';
+    // Paridad color: green if between 98-101%, red otherwise
+    const paridadClass = (d.paridad >= 98 && d.paridad <= 101) ? 'paridad high' : 'paridad low';
     const diasClass = d.dias_prox_cupon <= 30 ? 'dias-pago pronto' : 'dias-pago';
     
     return `
